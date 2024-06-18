@@ -1,8 +1,11 @@
 package com.dev.ronquillo.services;
 
+import com.dev.ronquillo.entity.Product;
 import com.dev.ronquillo.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductServices {
@@ -24,9 +27,9 @@ public class ProductServices {
         productRepo.deleteProduct(id);
     }
 
-    public void listProducts() {
+    public List<Product> listProducts() {
         System.out.println("Product listed");
-        productRepo.listProducts();
+        return productRepo.listProducts();
     }
 
     public void searchProduct(String name) {

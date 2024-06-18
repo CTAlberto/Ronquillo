@@ -1,33 +1,53 @@
 package com.dev.ronquillo.controller;
 
-import com.dev.ronquillo.repository.ProductRepo;
+import com.dev.ronquillo.entity.Product;
 import com.dev.ronquillo.services.ProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProductController {
     @Autowired
     protected ProductServices productServices;
 
-    @GetMapping("/ronquillo")
-    public ModelAndView home() {
+    @GetMapping("/")
+    public ModelAndView index() {
         return new ModelAndView("index");
     }
     @PostMapping("userValidation")
-    public ModelAndView userValidation(@RequestParam String login,@RequestParam String password) {
+    public String userValidation(@RequestParam String login,@RequestParam String password, HttpServletRequest request) {
         if (login.equals("narikiki65") && password.equals("narikiki65")) {
-            System.out.println("User and password correct");
-            return new ModelAndView("index");
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("pedido", new ArrayList<Product>());
+            return "redirect:/home";
         }
         return null;
     }
+    @GetMapping("home")
+    public ModelAndView home(@RequestParam(required = false)  String tipo, HttpSession sesion) {
+        ModelAndView maw = new ModelAndView("home");
+        List<Product> productList = listProducts(maw);
+        for(Product p : productList){
+            System.out.println(p.toString());
+        }
+        maw.addObject("productList",productList);
+        return maw;
+    }
 
+    public List<Product> listProducts(ModelAndView maw) {
+        System.out.println("Product listed");
+        return productServices.listProducts();
+    }
+    @PostMapping("addProduct")
     public void addProduct(String name, String type, double quantity, String description) {
         System.out.println("Product added");
         productServices.addProduct(name, type, quantity, description);
@@ -40,10 +60,6 @@ public class ProductController {
         System.out.println("Product deleted");
         productServices.deleteProduct(id);
     }
-    public void listProducts() {
-        System.out.println("Product listed");
-        productServices.listProducts();
-    }
     public void searchProduct(String name) {
         System.out.println("Product searched");
         productServices.searchProduct(name);
@@ -52,5 +68,4 @@ public class ProductController {
         System.out.println("Product listed by type");
         productServices.listProductsByType(type);
     }
-
 }
