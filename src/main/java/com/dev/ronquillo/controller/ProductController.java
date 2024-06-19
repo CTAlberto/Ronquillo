@@ -35,7 +35,7 @@ public class ProductController {
     @GetMapping("home")
     public ModelAndView home() {
         ModelAndView maw = new ModelAndView("home");
-        List<Product> productList = listProducts();
+        List<Product> productList = listProducts(true);
         maw.addObject("productList",productList);
         return maw;
     }
@@ -46,9 +46,41 @@ public class ProductController {
         productServices.modifyQuantity(productId, quantity);
         return "redirect:/home";
     }
-    //Service callto list ACTIVE products
-    public List<Product> listProducts() {
-        return productServices.listProducts();
+    //Service call to productService(return productList)
+    public List<Product> listProducts(Boolean type) {
+        try{
+            return productServices.listProducts(type);
+        } catch (Exception e) {
+            return productServices.listProducts(null);
+        }
+    }
+    @GetMapping("/adminProducts")
+    public ModelAndView adminProducts(){
+        ModelAndView maw = new ModelAndView("adminProducts");
+        List<Product> productList = listProducts(null);
+        maw.addObject("productList",productList);
+        return maw;
+    }
+    @PostMapping("/desactivarProducto")
+    public String deactivateProduct(@RequestParam int id) {
+        try {
+            productServices.deactivateProduct(id);
+        }catch(Exception e){
+            return "redirect:/adminProducts";
+        }
+
+        return "redirect:/adminProducts";
+    }
+
+    @GetMapping("/activarProducto")
+    public String activarProducto(@RequestParam int id) {
+        try {
+            productServices.activateProduct(id);
+        }catch(Exception e){
+            return "redirect:/adminProducts";
+        }
+
+        return "redirect:/adminProducts";
     }
     @PostMapping("addProduct")
     public void addProduct(String name, String type, double quantity, String description) {

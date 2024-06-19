@@ -20,47 +20,27 @@
         justify-content: space-between;
         margin-left: 10%;
     }
-    .quantity-selector {
-        display: flex;
-        align-items: center;
-    }
 
-    button {
-        padding: 10px;
-        font-size: 16px;
-        cursor: pointer;
-    }
 
-    input.quantity {
-        width: 50px;
-        text-align: center;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        margin: 0 5px;
-        border-radius: 4px;
-    }
     .product-form{
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .add-product-form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        }
 
-    .full-screen-div {
-        width: auto;
-        height: auto;
+    .formSearch {
         display: flex;
-        justify-content: center;
+        justify-content: flex-end; /* Alinea el contenido a la derecha */
         align-items: center;
     }
-
-    .content {
-        text-align: center; /* Alineación de texto opcional */
+    .button-right {
+        flex: 0 0 auto; /* No crecerá ni se reducirá */
     }
+    .input-left {
+        flex: 1; /* Ocupa todo el espacio restante */
+        margin-right: 10px; /* Espacio entre el botón y la caja de búsqueda */
+    }
+
 </style>
 <script>
     function restarCantidad(index) {
@@ -85,7 +65,34 @@
 
 </script>
 <body>
-<h2>Lista de productos:</h2>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/home">Home <span class="sr-only">(Actual)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/adminProducts">Administrar Productos</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <div class="formSearch">
+                <div class="input-left">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                </div>
+                <div class="button-right">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</nav>
 <div class="full-screen-div">
     <div class="content">
         <div class="product-form">
@@ -108,7 +115,7 @@
                     </div>
                     <div class="btn-group">
                         <button class="btn btn-sm btn-primary" onclick="restarCantidad(${loop.index})">-</button>
-                        <input id="cantidad-${loop.index}" type="text" class="form-control" value="${product.quantity}">
+                        <input id="cantidad-${loop.index}" type="text" class="form-control" value="${product.quantity}" min="0">
                         <button class="btn btn-sm btn-primary" onclick="sumarCantidad(${loop.index})">+</button>
                     </div>
                     <form action="modifyQuantity" method="post" class="mt-2">

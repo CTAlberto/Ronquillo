@@ -38,9 +38,15 @@ public class ProductServices {
         productRepo.deleteProduct(id);
     }
 
-    public List<Product> listProducts() {
+    public List<Product> listProducts(Boolean type) {
         System.out.println("Product listed");
-        return productRepo.listProducts();
+        return productRepo.listProducts(type);
+    }
+    public void activateProduct(int id) {
+        productRepo.activateProduct(id);
+    }
+    public void deactivateProduct(int id) {
+        productRepo.deactivateProduct(id);
     }
 
     public void searchProduct(String name) {

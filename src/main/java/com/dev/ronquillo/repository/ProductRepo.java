@@ -37,11 +37,17 @@ public class ProductRepo {
             s.printStackTrace();
         }
     }
-    public List<Product> listProducts() {
+    public List<Product> listProducts(Boolean type) {
         List<Product> products = new ArrayList<>();
         try {
             Connection connection = conectBBDD.conectar();
-            String sql = "SELECT * FROM Product WHERE isAvailable = true";
+            String sql = "";
+            if (type == null) {
+                sql = "SELECT * FROM Product order by isAvailable asc";
+            } else{
+                // Caso cuando type es true
+                sql = "SELECT * FROM Product WHERE isAvailable = " + type;
+            }
             ResultSet resultSet = connection.createStatement().executeQuery(sql);
             while (resultSet.next()) {
                 Product product = new Product();
@@ -62,7 +68,26 @@ public class ProductRepo {
         System.out.println("Product listed");
         return products;
     }
-
+    public void activateProduct(int id){
+        try{
+            Connection connection = conectBBDD.conectar();
+            String sql = "UPDATE Product SET isAvailable = true WHERE id = " + id;
+            connection.createStatement().executeUpdate(sql);
+            connection.close();
+        } catch (ClassNotFoundException | SQLException s) {
+            s.printStackTrace();
+        }
+    }
+    public void deactivateProduct(int id) {
+        try {
+            Connection connection = conectBBDD.conectar();
+            String sql = "UPDATE Product SET isAvailable = false WHERE id = " + id;
+            connection.createStatement().executeUpdate(sql);
+            connection.close();
+        } catch (ClassNotFoundException | SQLException s) {
+            s.printStackTrace();
+        }
+    }
     public void searchProduct(String name) {
         System.out.println("Product searched");
     }
