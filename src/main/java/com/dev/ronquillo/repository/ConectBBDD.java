@@ -1,6 +1,6 @@
 package com.dev.ronquillo.repository;
 
-    import org.springframework.context.annotation.Bean;
+    import org.springframework.stereotype.Component;
 
     import java.sql.Connection;
     import java.sql.DriverManager;
@@ -8,7 +8,7 @@ package com.dev.ronquillo.repository;
 
     import static com.dev.ronquillo.repository.Constantes.*;
 
-
+@Component
 public class ConectBBDD {
 
     public Connection conectar() throws ClassNotFoundException, SQLException {

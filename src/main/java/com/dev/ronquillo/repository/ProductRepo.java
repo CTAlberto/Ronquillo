@@ -13,6 +13,8 @@ import java.util.List;
 
 @Repository
 public class ProductRepo {
+    @Autowired
+    ConectBBDD conectBBDD;
     public void addProduct(String name, String type, double quantity, String description) {
         System.out.println("Product added");
     }
@@ -25,12 +27,21 @@ public class ProductRepo {
         System.out.println("Product deleted");
     }
 
+    public void modifyQuantity(int id, double quantity) {
+        try{
+            Connection connection = conectBBDD.conectar();
+            String sql = "UPDATE Product SET quantity = " + quantity + " WHERE id = " + id;
+            connection.createStatement().executeUpdate(sql);
+            connection.close();
+        } catch (ClassNotFoundException | SQLException s) {
+            s.printStackTrace();
+        }
+    }
     public List<Product> listProducts() {
-        ConectBBDD conectBBDD = new ConectBBDD();
         List<Product> products = new ArrayList<>();
         try {
             Connection connection = conectBBDD.conectar();
-            String sql = "SELECT * FROM product";
+            String sql = "SELECT * FROM Product WHERE isAvailable = true";
             ResultSet resultSet = connection.createStatement().executeQuery(sql);
             while (resultSet.next()) {
                 Product product = new Product();

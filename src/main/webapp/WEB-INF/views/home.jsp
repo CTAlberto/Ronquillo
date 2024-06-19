@@ -63,18 +63,26 @@
     }
 </style>
 <script>
-    function setCantidad(productId, index) {
-        // Obtener el valor del input quantity
-        var quantityInput = document.querySelector(`.quantity:nth-of-type(${index + 1})`); // index + 1 porque nth-of-type es 1-indexed
-        var cantidadInput = document.getElementById(`form-cantidad-${index}`);
-
-        if (quantityInput && cantidadInput) {
-            cantidadInput.value = quantityInput.value;
-            return true; // Permitir que el formulario se envíe
+    function restarCantidad(index) {
+        var cantidadInput = document.getElementById("cantidad-" + index);
+        var cantidad = parseInt(cantidadInput.value);
+        if (cantidad > 1) {
+            cantidadInput.value = cantidad - 1;
         }
-
-        return false; // Evitar que el formulario se envíe si no se pudo asignar la cantidad
     }
+
+    function sumarCantidad(index) {
+        var cantidadInput = document.getElementById("cantidad-" + index);
+        var cantidad = parseInt(cantidadInput.value);
+        cantidadInput.value = cantidad + 1;
+    }
+    function setCantidad(index) {
+        var cantidadInput = document.getElementById("cantidad-" + index);
+        var formCantidadInput = document.getElementById("form-cantidad-" + index);
+        formCantidadInput.value = cantidadInput.value;
+        return true;
+    }
+
 </script>
 <body>
 <h2>Lista de productos:</h2>
@@ -98,14 +106,15 @@
                     <div class="btn-group">
 
                     </div>
-                    <div class="quantity-selector">
-                        <input type="number" class="quantity" value="${product.quantity}" min="0">
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" onclick="restarCantidad(${loop.index})">-</button>
+                        <input id="cantidad-${loop.index}" type="text" class="form-control" value="${product.quantity}">
+                        <button class="btn btn-sm btn-primary" onclick="sumarCantidad(${loop.index})">+</button>
                     </div>
-                    <form action="addProduct" method="post" class="mt-2" onsubmit="return setCantidad(${product.id}, ${loop.index})">
+                    <form action="modifyQuantity" method="post" class="mt-2">
                         <input type="hidden" name="productId" value="${product.id}">
-                        <input type="hidden" name="cantidad" id="form-cantidad-${loop.index}">
-                        <input type="hidden" name="idUsuario" value="">
-                        <button type="submit" class="btn btn-success">Modificar cantidad</button>
+                        <input type="hidden" name="quantity" id="form-cantidad-${loop.index}">
+                        <button type="submit" class="btn btn-success" onclick="return setCantidad(${loop.index})">Modificar Cantidad</button>
                     </form>
                 </div>
             </div>

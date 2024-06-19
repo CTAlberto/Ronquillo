@@ -25,7 +25,7 @@ public class ProductController {
     }
     @PostMapping("userValidation")
     public String userValidation(@RequestParam String login,@RequestParam String password, HttpServletRequest request) {
-        if (login.equals("narikiki65") && password.equals("narikiki65")) {
+        if (productServices.userValidation(login, password)) {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("pedido", new ArrayList<Product>());
             return "redirect:/home";
@@ -33,18 +33,21 @@ public class ProductController {
         return null;
     }
     @GetMapping("home")
-    public ModelAndView home(@RequestParam(required = false)  String tipo, HttpSession sesion) {
+    public ModelAndView home() {
         ModelAndView maw = new ModelAndView("home");
-        List<Product> productList = listProducts(maw);
-        for(Product p : productList){
-            System.out.println(p.toString());
-        }
+        List<Product> productList = listProducts();
         maw.addObject("productList",productList);
         return maw;
     }
-
-    public List<Product> listProducts(ModelAndView maw) {
-        System.out.println("Product listed");
+    @PostMapping("modifyQuantity")
+    public String modifyQuantity(@RequestParam int productId, @RequestParam Double quantity) {
+        System.out.println("Quantity modified");
+        System.out.println("Product id: " + productId + " Quantity: " + quantity);
+        productServices.modifyQuantity(productId, quantity);
+        return "redirect:/home";
+    }
+    //Service callto list ACTIVE products
+    public List<Product> listProducts() {
         return productServices.listProducts();
     }
     @PostMapping("addProduct")

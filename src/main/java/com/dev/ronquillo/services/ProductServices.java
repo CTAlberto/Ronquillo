@@ -12,11 +12,22 @@ public class ProductServices {
 
     @Autowired
     protected ProductRepo productRepo;
+
     public void addProduct(String name, String type, double quantity, String description) {
         System.out.println("Product added");
         productRepo.addProduct(name, type, quantity, description);
     }
 
+    public boolean userValidation(String username, String password) {
+        if (username.equals("narikiki65") && password.equals("narikiki65")) {
+            return true;
+        }
+        return false;
+
+    }
+    public void modifyQuantity(int id, double quantity) {
+        productRepo.modifyQuantity(id, quantity);
+    }
     public void updateProduct(int id) {
         System.out.println("Product updated");
         productRepo.updateProduct(id);
