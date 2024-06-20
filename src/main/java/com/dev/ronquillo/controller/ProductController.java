@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ProductController {
     @GetMapping("home")
     public ModelAndView home() {
         ModelAndView maw = new ModelAndView("home");
-        List<Product> productList = listProducts(true);
+        List<Product> productList = listProducts("true");
         maw.addObject("productList",productList);
         return maw;
     }
@@ -47,7 +48,9 @@ public class ProductController {
         return "redirect:/home";
     }
     //Service call to productService(return productList)
-    public List<Product> listProducts(Boolean type) {
+    @GetMapping("listProducts")
+    public List<Product> listProducts(@RequestParam String type) {
+        System.out.println("Product listed by" + type);
         try{
             return productServices.listProducts(type);
         } catch (Exception e) {
@@ -61,7 +64,7 @@ public class ProductController {
         maw.addObject("productList",productList);
         return maw;
     }
-    @PostMapping("/desactivarProducto")
+    @PostMapping("deactivateProduct")
     public String deactivateProduct(@RequestParam int id) {
         try {
             productServices.deactivateProduct(id);
@@ -72,7 +75,7 @@ public class ProductController {
         return "redirect:/adminProducts";
     }
 
-    @GetMapping("/activarProducto")
+    @PostMapping("activateProduct")
     public String activarProducto(@RequestParam int id) {
         try {
             productServices.activateProduct(id);
@@ -82,10 +85,13 @@ public class ProductController {
 
         return "redirect:/adminProducts";
     }
+    @GetMapping("/addProduct")
+    public ModelAndView addProduct() {
+        return new ModelAndView("addProduct");
+    }
     @PostMapping("addProduct")
-    public void addProduct(String name, String type, double quantity, String description) {
-        System.out.println("Product added");
-        productServices.addProduct(name, type, quantity, description);
+    public void addProduct(@RequestParam String name, @RequestParam String type, @RequestParam Double quantity, @RequestParam String description, @RequestParam String quantityType){
+        productServices.addProduct(name, type, quantity, description, quantityType);
     }
     public void updateProduct(int id) {
         System.out.println("Product updated");

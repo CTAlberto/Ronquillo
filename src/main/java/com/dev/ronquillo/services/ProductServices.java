@@ -13,9 +13,8 @@ public class ProductServices {
     @Autowired
     protected ProductRepo productRepo;
 
-    public void addProduct(String name, String type, double quantity, String description) {
-        System.out.println("Product added");
-        productRepo.addProduct(name, type, quantity, description);
+    public void addProduct(String name, String type, double quantity, String description, String quantityType){
+        productRepo.addProduct(name, type, quantity, description, quantityType);
     }
 
     public boolean userValidation(String username, String password) {
@@ -38,7 +37,7 @@ public class ProductServices {
         productRepo.deleteProduct(id);
     }
 
-    public List<Product> listProducts(Boolean type) {
+    public List<Product> listProducts(String type) {
         System.out.println("Product listed");
         return productRepo.listProducts(type);
     }

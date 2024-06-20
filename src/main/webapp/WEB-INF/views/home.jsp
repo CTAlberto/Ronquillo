@@ -13,19 +13,11 @@
     <title>Inventario Ronquillo</title>
 </head>
 <style>
-
     .block-list{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         margin-left: 10%;
-    }
-
-
-    .product-form{
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .formSearch {
@@ -42,6 +34,7 @@
     }
 
 </style>
+
 <script>
     function restarCantidad(index) {
         var cantidadInput = document.getElementById("cantidad-" + index);
@@ -66,7 +59,7 @@
 </script>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Inventario Ronquillo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -78,6 +71,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/adminProducts">Administrar Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/addProduct">Añadir Producto<span class="sr-only"></span></a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -93,14 +89,18 @@
         </form>
     </div>
 </nav>
-<div class="full-screen-div">
-    <div class="content">
-        <div class="product-form">
-            <form class="add-product-form" action="addProduct" method="post">
-                <button type="submit" class="btn btn-primary">Añadir Producto</button>
-            </form>
-        </div>
-    </div>
+<form class="optionPanel" method="get" action="listProducts">
+    <select class="form-select" aria-label="Default select example">
+        <option selected>Selecciona ubicación</option>
+        <option value="nevera">Nevera</option>
+        <option value="congelador">Congelador</option>
+        <option value="despensa">Despensa</option>
+        <option value="bebidas">Bebidas</option>
+        <option value="limpieza">Limpieza</option>
+    </select>
+</form>
+<div class="btn-addProduct">
+    <a href="addProduct" methods="get" class="btn btn-primary">Agregar Producto</a>
 </div>
 <div class="block-list">
     <div class="row mt-4">
@@ -108,6 +108,7 @@
             <div class="col-md-4">
                 <div class="producto-card">
                     <h4 class="card-title">${product.name}</h4>
+                    <b>${product.type}</b>
                     <p>${product.description}</p>
 
                     <div class="btn-group">

@@ -13,7 +13,6 @@
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <style>
-    <style>
     button {
         background-color: #4CAF50; /* Green */
         border: none;
@@ -82,10 +81,9 @@
         margin-right: 10px; /* Espacio entre el botón y la caja de búsqueda */
     }
 </style>
-</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Inventario Ronquillo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -98,6 +96,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="/adminProducts">Administrar Productos<span class="sr-only">(Actual)</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/addProduct">Añadir Producto<span class="sr-only"></span></a>
+            </li>
+
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <div class="formSearch">
@@ -115,7 +117,7 @@
 
 <c:forEach var="product" items="${productList}">
     <div class="botones_activar_desactivar">
-        <form action="/desactivarProducto" method="post">
+        <form action="deactivateProduct" method="post">
             <input type="hidden" name="id" value="${product.id}">
             <div class="productos">
                 <p id="${product.id}">Nombre: ${product.name} - Ubicación: ${product.type} - Cantidad: ${product.quantity} - Descripción: ${product.description} Estado: ${product.available}
@@ -128,7 +130,7 @@
             </div>
         </form>
 
-        <form action="/activarProducto" method="get">
+        <form action="activateProduct" method="post">
             <input type="hidden" name="id" value="${product.id}">
             <c:if test="${product.available == true}">
                 <input type="submit" value="Activar" class="btn btn-secondary">
@@ -136,6 +138,8 @@
             <c:if test="${product.available == false}">
                 <input type="submit" value="Activar" class="btn btn-primary">
             </c:if>
+
+        </form>
 
         </form>
 
