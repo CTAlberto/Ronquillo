@@ -48,9 +48,8 @@ public class ProductServices {
         productRepo.deactivateProduct(id);
     }
 
-    public void searchProduct(String name) {
-        System.out.println("Product searched");
-        productRepo.searchProduct(name);
+    public List<Product> searchProduct(String name) {
+        return productRepo.searchProduct(name);
     }
     public void listProductsByType(String type) {
         System.out.println("Product listed by type");

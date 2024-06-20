@@ -114,8 +114,30 @@ public class ProductRepo {
             s.printStackTrace();
         }
     }
-    public void searchProduct(String name) {
-        System.out.println("Product searched");
+    public List<Product> searchProduct(String name) {
+        List<Product> products = new ArrayList<>();
+        try{
+            Connection connection = conectBBDD.conectar();
+            String sql = "SELECT * FROM Product WHERE name LIKE '%" + name + "%'";
+            ResultSet resultSet = connection.createStatement().executeQuery(sql);
+            while (resultSet.next()) {
+                Product product = new Product();
+                product.setId(resultSet.getInt("id"));
+                product.setName(resultSet.getString("name"));
+                product.setType(resultSet.getString("type"));
+                product.setQuantity(resultSet.getDouble("quantity"));
+                product.setDescription(resultSet.getString("description"));
+                product.setAvailable(resultSet.getBoolean("isAvailable"));
+                product.setQuantityType(resultSet.getString("quantityType"));
+                products.add(product);
+            }
+            resultSet.close();
+            connection.close();
+            return products;
+        }catch (ClassNotFoundException | SQLException s) {
+            s.printStackTrace();
+        }
+        return products;
     }
     public void listProductsByType(String type) {
         System.out.println("Product listed by type");

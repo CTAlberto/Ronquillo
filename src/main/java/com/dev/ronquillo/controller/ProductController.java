@@ -34,9 +34,9 @@ public class ProductController {
         return null;
     }
     @GetMapping("home")
-    public ModelAndView home() {
+    public ModelAndView home(String type) {
         ModelAndView maw = new ModelAndView("home");
-        List<Product> productList = listProducts("true");
+        List<Product> productList = listProducts(type);
         maw.addObject("productList",productList);
         return maw;
     }
@@ -101,9 +101,11 @@ public class ProductController {
         System.out.println("Product deleted");
         productServices.deleteProduct(id);
     }
-    public void searchProduct(String name) {
-        System.out.println("Product searched");
-        productServices.searchProduct(name);
+    @PostMapping("searchProduct")
+    public ModelAndView searchProduct(String name) {
+        ModelAndView maw = new ModelAndView("home");
+        maw.addObject("productList", productServices.searchProduct(name));
+        return maw;
     }
     public void listProductsByType(String type) {
         System.out.println("Product listed by type");

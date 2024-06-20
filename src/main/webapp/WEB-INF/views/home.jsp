@@ -76,10 +76,10 @@
                 <a class="nav-link" href="/addProduct">Añadir Producto<span class="sr-only"></span></a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" action="searchProduct" method="post">
             <div class="formSearch">
                 <div class="input-left">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" name="name" placeholder="Search" aria-label="Search">
                 </div>
                 <div class="button-right">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -89,14 +89,15 @@
         </form>
     </div>
 </nav>
-<form class="optionPanel" method="get" action="listProducts">
-    <select class="form-select" aria-label="Default select example">
+<form class="optionPanel" method="get" action="/home">
+    <select class="form-select" aria-label="Default select example" name="type" onchange="this.form.submit()">
         <option selected>Selecciona ubicación</option>
         <option value="nevera">Nevera</option>
         <option value="congelador">Congelador</option>
         <option value="despensa">Despensa</option>
         <option value="bebidas">Bebidas</option>
         <option value="limpieza">Limpieza</option>
+        <option value="true">Todos</option>
     </select>
 </form>
 <div class="btn-addProduct">
@@ -108,7 +109,7 @@
             <div class="col-md-4">
                 <div class="producto-card">
                     <h4 class="card-title">${product.name}</h4>
-                    <b>${product.type}</b>
+                    <b>${product.type.toUpperCase()}</b>
                     <p>${product.description}</p>
 
                     <div class="btn-group">
