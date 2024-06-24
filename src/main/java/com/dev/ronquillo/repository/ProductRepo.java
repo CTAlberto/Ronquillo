@@ -19,7 +19,7 @@ public class ProductRepo {
     public void addProduct(String name, String type, double quantity, String description, String quantityType){
         try{
             Connection connection = conectBBDD.conectar();
-            String sql = "INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Product VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, 0);
             ps.setString(2, name);
@@ -28,6 +28,7 @@ public class ProductRepo {
             ps.setString(5, quantityType);
             ps.setBoolean(6, true);
             ps.setString(7, description);
+            ps.setBoolean(8, false);
             ps.executeUpdate();
             ps.close();
             connection.close();
@@ -40,8 +41,25 @@ public class ProductRepo {
         System.out.println("Product updated");
     }
 
-    public void deleteProduct(int id) {
-        System.out.println("Product deleted");
+    public void addFavourite(int id){
+        try{
+            Connection connection = conectBBDD.conectar();
+            String sql = "UPDATE Product SET fav = true WHERE id = " + id;
+            connection.createStatement().executeUpdate(sql);
+            connection.close();
+        } catch (ClassNotFoundException | SQLException s) {
+            s.printStackTrace();
+        }
+    }
+    public void quitFavourite(int id){
+        try{
+            Connection connection = conectBBDD.conectar();
+            String sql = "UPDATE Product SET fav = false WHERE id = " + id;
+            connection.createStatement().executeUpdate(sql);
+            connection.close();
+        } catch (ClassNotFoundException | SQLException s) {
+            s.printStackTrace();
+        }
     }
 
     public void modifyQuantity(int id, double quantity) {
@@ -84,6 +102,7 @@ public class ProductRepo {
                 product.setDescription(resultSet.getString("description"));
                 product.setAvailable(resultSet.getBoolean("isAvailable"));
                 product.setQuantityType(resultSet.getString("quantityType"));
+                product.setFavorite(resultSet.getBoolean("fav"));
                 products.add(product);
             }
             connection.close();

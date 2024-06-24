@@ -40,6 +40,13 @@ public class ProductController {
         maw.addObject("productList",productList);
         return maw;
     }
+    @GetMapping("/adminProducts")
+    public ModelAndView adminProducts(String type){
+        ModelAndView maw = new ModelAndView("adminProducts");
+        List<Product> productList = listProducts(type);
+        maw.addObject("productList",productList);
+        return maw;
+    }
     @PostMapping("modifyQuantity")
     public String modifyQuantity(@RequestParam int productId, @RequestParam Double quantity) {
         System.out.println("Quantity modified");
@@ -56,13 +63,6 @@ public class ProductController {
         } catch (Exception e) {
             return productServices.listProducts(null);
         }
-    }
-    @GetMapping("/adminProducts")
-    public ModelAndView adminProducts(){
-        ModelAndView maw = new ModelAndView("adminProducts");
-        List<Product> productList = listProducts(null);
-        maw.addObject("productList",productList);
-        return maw;
     }
     @PostMapping("deactivateProduct")
     public String deactivateProduct(@RequestParam int id) {
@@ -90,20 +90,30 @@ public class ProductController {
         return new ModelAndView("addProduct");
     }
     @PostMapping("addProduct")
-    public void addProduct(@RequestParam String name, @RequestParam String type, @RequestParam Double quantity, @RequestParam String description, @RequestParam String quantityType){
+    public void addProduct(@RequestParam String name, @RequestParam String type, @RequestParam Double quantity, String description, @RequestParam String quantityType){
         productServices.addProduct(name, type, quantity, description, quantityType);
     }
     public void updateProduct(int id) {
         System.out.println("Product updated");
         productServices.updateProduct(id);
     }
-    public void deleteProduct(int id) {
-        System.out.println("Product deleted");
-        productServices.deleteProduct(id);
+    @PostMapping("addFavourite")
+    public void addFavourite(int id) {
+        productServices.addFavourite(id);
+    }
+    @PostMapping("quitFavourite")
+    public void quitFavourite(int id) {
+        productServices.quitFavourite(id);
     }
     @PostMapping("searchProduct")
     public ModelAndView searchProduct(String name) {
         ModelAndView maw = new ModelAndView("home");
+        maw.addObject("productList", productServices.searchProduct(name));
+        return maw;
+    }
+    @PostMapping("searchProductAdminPanel")
+    public ModelAndView searchProductAdminPanel(String name) {
+        ModelAndView maw = new ModelAndView("adminProducts");
         maw.addObject("productList", productServices.searchProduct(name));
         return maw;
     }

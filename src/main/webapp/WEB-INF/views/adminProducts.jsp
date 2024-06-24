@@ -94,23 +94,36 @@
                 <a class="nav-link" href="/home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/adminProducts">Administrar Productos<span class="sr-only">(Actual)</span></a>
+                <a class="nav-link" href="/adminProducts"><b>Administrar Productos</b><span class="sr-only">(Actual)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/addProduct">Añadir Producto<span class="sr-only"></span></a>
             </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" action="searchProductAdminPanel" method="post">
             <div class="formSearch">
                 <div class="input-left">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" name="name" placeholder="Search" aria-label="Search">
                 </div>
                 <div class="button-right">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </div>
             </div>
 
+        </form>
+    </div>
+    <div>
+        <form class="optionPanel" method="get" action="/adminProducts">
+            <select class="form-select" aria-label="Default select example" name="type" onchange="this.form.submit()">
+                <option selected>Selecciona ubicación</option>
+                <option value="nevera">Nevera</option>
+                <option value="congelador">Congelador</option>
+                <option value="despensa">Despensa</option>
+                <option value="bebidas">Bebidas</option>
+                <option value="limpieza">Limpieza</option>
+                <option value="true">Todos</option>
+            </select>
         </form>
     </div>
 </nav>

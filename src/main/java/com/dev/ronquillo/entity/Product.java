@@ -9,10 +9,21 @@ public class Product {
     protected String quantityType;
     protected boolean isAvailable;
     protected String description;
+    protected boolean favorite;
 
     public Product() {
     }
 
+    public Product(int id, String name, String type, double quantity, String quantityType, boolean isAvailable, String description, boolean favorite) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.quantity = quantity;
+        this.quantityType = quantityType;
+        this.isAvailable = isAvailable;
+        this.description = description;
+        this.favorite = favorite;
+    }
     public Product(int id, String name, String type, double quantity, String quantityType, boolean isAvailable, String description) {
         this.id = id;
         this.name = name;
@@ -21,8 +32,8 @@ public class Product {
         this.quantityType = quantityType;
         this.isAvailable = isAvailable;
         this.description = description;
+        this.favorite = false;
     }
-
     public int getId() {
         return id;
     }
@@ -77,6 +88,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     @Override

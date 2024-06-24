@@ -38,7 +38,7 @@
                 <a class="nav-link" href="/adminProducts">Administrar Productos<span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/addProduct">Añadir Producto<span class="sr-only">(Actual)</span></a>
+                <a class="nav-link" href="/addProduct"><b>Añadir Producto</b><span class="sr-only">(Actual)</span></a>
             </li>
         </ul>
     </div>
@@ -68,7 +68,7 @@
         </select>
         <div class="mb-3">
             <label for="description" class="form-label">Descripción</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            <textarea class="form-control" id="description" name="description" rows="4"></textarea>
             <div id="description-help" class="form-text">No use caracteres especiales como " , |, + ...</div>
         </div>
 
